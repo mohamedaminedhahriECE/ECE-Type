@@ -8,5 +8,7 @@
 #endif //DEFILE_BACKGROUND_H
 
 
-void DEFILE_BACKGROUND_H;
+void DEFILE_BACKGROUND_H { 
+  printf('test');
+}
 
