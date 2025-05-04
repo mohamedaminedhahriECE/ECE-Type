@@ -6,3 +6,5 @@
 #define CONTROLE_H
 
 #endif //CONTROLE_H
+void Controle(){
+}
