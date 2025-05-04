@@ -6,3 +6,7 @@
 #define SON_H
 
 #endif //SON_H
+
+void son(){
+    
+}
