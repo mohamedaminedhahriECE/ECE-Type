@@ -8,5 +8,5 @@
 #endif //DEFILE_BACKGROUND_H
 
 
-test JFL
+void DEFILE_BACKGROUND_H;
 
