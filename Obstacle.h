@@ -6,3 +6,5 @@
 #define OBSTACLE_H
 
 #endif //OBSTACLE_H
+
+void obstacle();
