@@ -1,3 +1,0 @@
-# ECE-Type
-Projet 
-dxxgfhhhhhhhhhhhhhhhhhhhhhhhhhhhhhsterdtdrthderser
