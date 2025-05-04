@@ -6,3 +6,5 @@
 #define TIR_H
 
 #endif //TIR_H
+
+void tir_init(void);

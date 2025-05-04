@@ -7,4 +7,4 @@
 
 #endif //MENU_H
 
-void tir_init(void);
+
