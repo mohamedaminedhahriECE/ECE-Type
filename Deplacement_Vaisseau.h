@@ -1,0 +1,8 @@
+//
+// Created by flobe on 04/05/2025.
+//
+
+#ifndef DEPLACEMENT_VAISSEAU_H
+#define DEPLACEMENT_VAISSEAU_H
+
+#endif //DEPLACEMENT_VAISSEAU_H
