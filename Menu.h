@@ -6,3 +6,5 @@
 #define MENU_H
 
 #endif //MENU_H
+
+void tir_init(void);
