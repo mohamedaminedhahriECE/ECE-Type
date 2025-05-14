@@ -1,0 +1,8 @@
+//
+// Created by flobe on 14/05/2025.
+//
+
+#ifndef TRANSITIONS_ECRANSPECIAUX_H
+#define TRANSITIONS_ECRANSPECIAUX_H
+
+#endif //TRANSITIONS_ECRANSPECIAUX_H

@@ -4,7 +4,7 @@
 
 #include <allegro.h>
 #include <stdio.h>
-#include "joueur.h"
+#include "GestionJoueur_Partie.h"
 
 // Fonction simple pour afficher un message temporaire à l'écran
 void afficherMessageTemporaire(const char* message, int secondes) {

@@ -1,0 +1,8 @@
+//
+// Created by flobe on 14/05/2025.
+//
+
+#ifndef SAUVEGARDE_CHARGEMENT_H
+#define SAUVEGARDE_CHARGEMENT_H
+
+#endif //SAUVEGARDE_CHARGEMENT_H
