@@ -1,125 +1,59 @@
+//
+// Created by flobe on 14/05/2025.
+//
 #include <allegro.h>
 #include <stdio.h>
 #include <string.h>
-#include "joueur.h"
+#include <stdlib.h>
+#include "GestionJoueur_Partie.h"
 
-char* saisirPseudo() {
-    static char pseudo[20] = "";
-    int pos = 0;
+char* saisirPseudo(BITMAP* fond) {
+    static char pseudo[MAX_PSEUDO] = "";
+    int index = 0;
     int touche;
 
-    while (!key[KEY_ENTER]) {
+    blit(fond, screen, 0, 0, 0, 0, fond->w, fond->h);
+    textprintf_ex(screen, font, 100, 100, makecol(255,255,255), -1, "Entrez votre pseudo :");
+
+    while (1) {
         if (keypressed()) {
             touche = readkey();
-            char c = touche & 0xff;
-            if (c >= 32 && c <= 126 && pos < 19) {
-                pseudo[pos++] = c;
-                pseudo[pos] = '\0';
-            } else if ((touche >> 8) == KEY_BACKSPACE && pos > 0) {
-                pseudo[--pos] = '\0';
+            char carac = (char)touche;
+
+            if ((carac >= 'a' && carac <= 'z') || (carac >= 'A' && carac <= 'Z') || (carac >= '0' && carac <= '9')) {
+                if (index < MAX_PSEUDO - 1) {
+                    pseudo[index++] = carac;
+                    pseudo[index] = '\0';
+                }
+            } else if (carac == 8 && index > 0) {
+                index--;
+                pseudo[index] = '\0';
+            } else if (carac == '\r') {
+                break;
             }
+            blit(fond, screen, 0, 0, 0, 0, fond->w, fond->h);
+            textprintf_ex(screen, font, 100, 100, makecol(255,255,255), -1, "Entrez votre pseudo :");
+            textprintf_ex(screen, font, 100, 120, makecol(255,255,0), -1, "%s", pseudo);
         }
-
-        clear_to_color(screen, makecol(0, 0, 0));
-        textprintf_ex(screen, font, 100, 100, makecol(255, 255, 255), -1, "Pseudo : %s", pseudo);
-        rest(30);
+        rest(20);
     }
-
     return pseudo;
 }
-
 int verifierPseudo(const char* pseudo) {
-    char nomFichier[32];
-    sprintf(nomFichier, "%s.txt", pseudo);
-    FILE* f = fopen(nomFichier, "r");
-    if (f) {
+    char filename[50];
+    sprintf(filename, "%s.txt", pseudo);
+
+    FILE* f = fopen(filename, "r");
+    if (f != NULL) {
         fclose(f);
-        return 1;
+        return 1; // joueur connu
+    } else {
+        return 0; // nouveau joueur
     }
-    return 0;
 }
 
-void initialiserJoueur(t_joueur* j, const char* pseudo) {
-    strncpy(j->pseudo, pseudo, sizeof(j->pseudo) - 1);
-    j->pseudo[sizeof(j->pseudo) - 1] = '\0';
-    j->vies = 3;
-    j->niveau = 1;
+void afficherMessageTemporaire(BITMAP* fond, const char* message, int duree) {
+    blit(fond, screen, 0, 0, 0, 0, fond->w, fond->h); // Affiche le fond
+    textprintf_ex(screen, font, 100, 300, makecol(255, 255, 255), -1, "%s", message);
+    rest(duree);
 }
-
-void perdreVie(t_joueur* j) {
-    if (j->vies > 0)
-        j->vies--;
-    afficherMessageTemporaire("Tu as perdu une vie", 2);
-}
-
-int viesRestantes(t_joueur* j) {
-    return j->vies;
-}
-
-void afficherMessageTemporaire(const char* message, int duree) {
-    clear_to_color(screen, makecol(0, 0, 0));
-    textout_ex(screen, font, message, 100, 100, makecol(255, 0, 0), -1);
-    rest(duree * 1000);
-}
-
-
-/*
-#include "joueur.h"
-
-char* saisirPseudo() {
-    static char pseudo[20] = "";
-    int pos = 0;
-    int key;
-
-    while (!key[KEY_ENTER]) {
-        if (keypressed()) {
-            key = readkey();
-            char c = key & 0xff;
-            if (c >= 32 && c <= 126 && pos < 19) {
-                pseudo[pos++] = c;
-                pseudo[pos] = '\0';
-            } else if ((key >> 8) == KEY_BACKSPACE && pos > 0) {
-                pseudo[--pos] = '\0';
-            }
-        }
-
-        clear_to_color(screen, makecol(0, 0, 0));
-        textprintf_ex(screen, font, 100, 100, makecol(255, 255, 255), -1, "Pseudo : %s", pseudo);
-        rest(30);
-    }
-
-    return pseudo;
-}
-
-int verifierPseudo(const char* pseudo) {
-    char nomFichier[32];
-    sprintf(nomFichier, "%s.txt", pseudo);
-    FILE* f = fopen(nomFichier, "r");
-    if (f) {
-        fclose(f);
-        return 1;
-    }
-    return 0;
-}
-
-void initialiserJoueur(t_joueur* j, const char* pseudo) {
-    strncpy(j->pseudo, pseudo, sizeof(j->pseudo));
-    j->vies = 3;
-    j->niveau = 1;
-}
-
-void perdreVie(t_joueur* j) {
-    if (j->vies > 0) j->vies--;
-    afficherMessageTemporaire("Tu as perdu une vie", 2);
-}
-
-int viesRestantes(t_joueur* j) {
-    return j->vies;
-}
-
-void afficherMessageTemporaire(const char* message, int duree) {
-    clear_to_color(screen, makecol(0, 0, 0));
-    textout_ex(screen, font, message, 100, 100, makecol(255, 0, 0), -1);
-    rest(duree * 1000);
-}
-*/

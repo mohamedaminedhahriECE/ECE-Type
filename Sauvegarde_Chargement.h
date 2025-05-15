@@ -5,4 +5,7 @@
 #ifndef SAUVEGARDE_CHARGEMENT_H
 #define SAUVEGARDE_CHARGEMENT_H
 
+void sauvegarderProgression(const char* pseudo, int niveau);
+int chargerProgression(const char* pseudo);
+
 #endif //SAUVEGARDE_CHARGEMENT_H

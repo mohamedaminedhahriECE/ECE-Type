@@ -1,72 +1,41 @@
-//
-// Created by flobe on 14/05/2025.
-//
-
 #include <allegro.h>
-#include <stdio.h>
 #include "GestionJoueur_Partie.h"
-
-// Fonction simple pour afficher un message temporaire à l'écran
-void afficherMessageTemporaire(const char* message, int secondes) {
-    clear_to_color(screen, makecol(0, 0, 0));
-    textout_ex(screen, font, message, 300, 280, makecol(255, 255, 255), -1);
-    rest(secondes * 1000);
-}
-
-int main() {
-    allegro_init();                // Initialise Allegro
-    install_keyboard();           // Active le clavier
-    set_color_depth(24);          // Profondeur de couleur
-    set_gfx_mode(GFX_AUTODETECT_WINDOWED, 800, 600, 0, 0);  // Fenêtre 800x600
-
-    t_joueur joueur;
-    char* pseudo = saisirPseudo();
-
-    if (verifierPseudo(pseudo)) {
-        afficherMessageTemporaire("Joueur reconnu !", 2);
-    } else {
-        afficherMessageTemporaire("Nouveau joueur", 2);
-    }
-
-    initialiserJoueur(&joueur, pseudo);
-
-    printf("Pseudo : %s\n", joueur.pseudo);
-    printf("Vies restantes : %d\n", viesRestantes(&joueur));
-
-    readkey(); // Pause avant de fermer
-
-    return 0;
-}
-END_OF_MAIN();
+#include "Sauvegarde_Chargement.h"
 
 
-
-/*
-#include <allegro.h>
-#include <stdio.h>
-#include "joueur.h"
-
-int main() {
+void initAllegro() {
     allegro_init();
     install_keyboard();
-    set_color_depth(24);
-    set_gfx_mode(GFX_AUTODETECT_WINDOWED, 800, 600, 0, 0);
+    set_color_depth(32);
+    if (set_gfx_mode(GFX_AUTODETECT_WINDOWED, 800, 600, 0, 0) != 0) {
+        allegro_message("Erreur mode graphique");
+        allegro_exit();
+        exit(EXIT_FAILURE);
+    }
+}
 
-    t_joueur joueur;
+
+int main() {
+    initAllegro();
+    BITMAP* fond = NULL;
+    fond = load_bitmap("background.bmp", NULL);
+    if (!fond) {
+        allegro_message("Erreur de chargement du fond !");
+        destroy_bitmap(fond);
+        allegro_exit();
+        exit(EXIT_FAILURE);
+    }
+    blit(fond, screen, 0, 0, 0, 0, fond->w, fond->h);
     char* pseudo = saisirPseudo();
 
     if (verifierPseudo(pseudo)) {
-        afficherMessageTemporaire("Joueur reconnu !", 2);
+        afficherMessageTemporaire(fond, "Joueur reconnu.", 2000);
     } else {
-        afficherMessageTemporaire("Nouveau joueur", 2);
+        afficherMessageTemporaire(fond, "Nouveau joueur. Sauvegarde en cours...", 2000);
+        sauvegarderProgression(pseudo, 1);  // Crée le fichier avec niveau 1
     }
-
-    initialiserJoueur(&joueur, pseudo);
-
-    printf("Pseudo : %s\n", joueur.pseudo);
-    printf("Vies restantes : %d\n", viesRestantes(&joueur));
-
+    readkey();
+    allegro_exit();
     return 0;
 }
 END_OF_MAIN();
-*/
